@@ -12,9 +12,9 @@ import {
 export default class Note extends Component {
   render() {
     return (
-      <View style={styles.note}>
+      <View key={this.props.kayval} style={styles.note}>
 
-        <Text style={styles.noteText}>{this.props.val.data}</Text>
+        <Text style={styles.noteText}>{this.props.val.date}</Text>
         <Text style={styles.noteText}>{this.props.val.note}</Text>
 
         <TouchableOpacity 
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     borderLeftColor: '#e91e63'
   },
   noteDelete: {
-    position: absolute,
+    position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2980b9',
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
   },
-  noteDelete: {
+  noteDeleteText: {
     color: '#fff'
   }
 })

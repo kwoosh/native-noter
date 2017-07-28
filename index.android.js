@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
@@ -9,10 +9,25 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity
-} from 'react-native';
+} from 'react-native'
+import Note from './app/components/Note'
 
 export default class Noter extends Component {
+  state = {
+    noteArray: [
+      { 
+        date: '2001',
+        note: 'asdfasdfas'
+      }
+    ],
+    noteText: '',
+  }
+
   render() {
+    let notes = this.state.noteArray.map((val, key) => {
+      return <Note key={key} keyval={key} val={val} deleteMethod={ () => this.deleteNote(key) } />
+    })
+
     return (
       <View style={styles.container}>
         
@@ -20,15 +35,21 @@ export default class Noter extends Component {
           <Text style={styles.headerText}>- Noter -</Text>
         </View>
 
-        <ScrollView style={styles.scrollContainer}></ScrollView>
+        <ScrollView style={styles.scrollContainer}>
+
+          {notes}
+
+        </ScrollView>
 
         <View style={styles.footer}>
           
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity onPress={this.addNote.bind(this)} style={styles.addButton}>
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
 
           <TextInput style={styles.textInput} 
+            onChangeText={noteText => this.setState({ noteText })}
+            value={this.state.noteText}
             placeholder='> note'
             placeholderTextColor='white'
             underlineColorAndroid='transparent'>
@@ -38,6 +59,22 @@ export default class Noter extends Component {
 
       </View>
     )
+  }
+
+  addNote() {
+    const newNote = {}
+    const d = new Date()
+
+    if(this.state.noteText) {
+      newNote.date = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}` 
+      newNote.note = this.state.noteText
+
+      this.state.noteArray.push(newNote)
+
+      this.setState({ noteArray: this.state.noteArray })
+    }
+
+    this.state.noteText = ''
   }
 }
 
