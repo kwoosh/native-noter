@@ -1,53 +1,135 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+// @flow
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
-} from 'react-native';
+  View,
+  TextInput,
+  ScrollView,
+  TouchableOpacity
+} from 'react-native'
+import Note from './app/components/Note'
 
 export default class Noter extends Component {
+  state = {
+    noteArray: [],
+    noteText: '',
+  }
+
   render() {
+    let notes = this.state.noteArray.map((val, key) => {
+      return <Note key={key} keyval={key} val={val} deleteMethod={ () => this.deleteNote(key) } />
+    })
+
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        
+        <View style={styles.header}>
+          <Text style={styles.headerText}>- Noter -</Text>
+        </View>
+
+        <ScrollView style={styles.scrollContainer}>
+
+          {notes}
+
+        </ScrollView>
+
+        <View style={styles.footer}>
+          
+          <TouchableOpacity onPress={this.addNote.bind(this)} style={styles.addButton}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
+
+          <TextInput style={styles.textInput} 
+            onChangeText={noteText => this.setState({ noteText })}
+            value={this.state.noteText}
+            placeholder='> note'
+            placeholderTextColor='white'
+            underlineColorAndroid='transparent'>
+          </TextInput>
+
+        </View>
+
       </View>
-    );
+    )
+  }
+
+  addNote() {
+    const newNote = {}
+    const d = new Date()
+
+    if(this.state.noteText) {
+      newNote.date = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}` 
+      newNote.note = this.state.noteText
+
+      this.state.noteArray.push(newNote)
+
+      this.setState({ noteArray: this.state.noteArray })
+      this.setState({ noteText: ''})
+    }
+  }
+
+  deleteNote(id) {
+    this.state.noteArray.splice(id, 1)
+    this.setState({ noteArray: this.state.noteArray })
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    flex: 1
+  },
+  header: {
+    backgroundColor: '#e91e63',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center',
+    borderBottomWidth: 10,
+    borderBottomColor: '#ddd',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  headerText: {
+    color: '#fff',
+    fontSize: 25, 
+    padding: 26,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  scrollContainer: {
+    flex: 1,
+    marginBottom: 100,
   },
-});
+  footer: {
+    position: 'absolute',
+    alignItems: 'center',
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
+  addButton: {
+    backgroundColor: '#e91e63',
+    width: 90,
+    height: 90,
+    borderRadius: 50,
+    borderColor: '#ccc',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 8,
+    zIndex: 10,
+    marginBottom: -45,
+    
+  },
+  addButtonText: {
+    color: '#fff',
+    fontSize: 24
+  },
+  textInput: {
+    alignSelf: 'stretch',
+    color: '#fff', 
+    padding: 20,
+    paddingTop: 46,
+    backgroundColor: '#252525',
+    borderTopWidth: 2,
+    borderTopColor: '#ededed'
+  }
+})
 
-AppRegistry.registerComponent('Noter', () => Noter);
+AppRegistry.registerComponent('Noter', () => Noter)

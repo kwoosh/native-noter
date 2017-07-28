@@ -14,12 +14,7 @@ import Note from './app/components/Note'
 
 export default class Noter extends Component {
   state = {
-    noteArray: [
-      { 
-        date: '2001',
-        note: 'asdfasdfas'
-      }
-    ],
+    noteArray: [],
     noteText: '',
   }
 
@@ -72,9 +67,13 @@ export default class Noter extends Component {
       this.state.noteArray.push(newNote)
 
       this.setState({ noteArray: this.state.noteArray })
+      this.setState({ noteText: ''})
     }
+  }
 
-    this.state.noteText = ''
+  deleteNote(id) {
+    this.state.noteArray.splice(id, 1)
+    this.setState({ noteArray: this.state.noteArray })
   }
 }
 

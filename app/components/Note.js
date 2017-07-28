@@ -1,13 +1,13 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
   TouchableOpacity
-} from 'react-native';
+} from 'react-native'
 
 export default class Note extends Component {
   render() {
