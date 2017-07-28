@@ -37,7 +37,7 @@ export default class Noter extends Component {
         </View>
 
       </View>
-    );
+    )
   }
 }
 
@@ -94,6 +94,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderTopColor: '#ededed'
   }
-});
+})
 
-AppRegistry.registerComponent('Noter', () => Noter);
+AppRegistry.registerComponent('Noter', () => Noter)
